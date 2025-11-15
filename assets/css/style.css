@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+.root{
+    font-family: 'Alegreya', Nunito;
+    
+}
+/* General styles */
+body {
+  min-height: 100vh;
+ 
+}
+
+#dive {
+    background-color: #ff8400 ;
+     color: white;
+    padding: 10px;
+    text-align: center;
+ 
+    }
+   
+    .btnCustom {
+        margin: 5px;
+        border-color: #ff8400;
+      border-width: 2px;
+        font-weight: bold;
+    }
+    .box{
+        border: 2px solid #ff8400;
+        border-radius: 10px;
+        padding: 10px;
+        box-shadow: 2px 2px 5px #ff8400;
+    }
+    #results{
+        width: 300px;
+        margin-top: 20px;
+        text-align: center;
+        align-self:auto;
+        margin-top: 0;
+        position: relative;
+        
+    }
+    #typing-area{
+        margin-top: 20px;
+    }
