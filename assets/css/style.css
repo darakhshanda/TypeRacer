@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..900;1,400..900&family= Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 .root{
     font-family: 'Alegreya', Nunito;
     
@@ -6,6 +6,7 @@
 /* General styles */
 body {
   min-height: 100vh;
+  margin-left: 30px;
  
 }
 
@@ -16,28 +17,52 @@ body {
     text-align: center;
  
     }
-   
-    .btnCustom {
+ 
+.btnCustom {
         margin: 5px;
         border-color: #ff8400;
       border-width: 2px;
         font-weight: bold;
+   }
+   .btnCustom:hover {
+        background-color: #ff8400;
+        color: white;
+        border-color: #ff0037;
     }
-    .box{
+      
+
+.box{
         border: 2px solid #ff8400;
         border-radius: 10px;
         padding: 10px;
         box-shadow: 2px 2px 5px #ff8400;
     }
-    #results{
+#results{
         width: 300px;
         margin-top: 20px;
         text-align: center;
         align-self:auto;
-        margin-top: 0;
-        position: relative;
-        
+        margin-bottom: 5px;
     }
-    #typing-area{
+#results p{
+        font-size : 20 px;
+        font-weight: bold;
+    }
+#results span{
+        color: #ff8400;
+        font-style: italic;
+    }
+#testText{
+    /* grow to fit text */
+    width: fit-content;
+   
+    height: fit-content;
+   
+    overflow: visible;
+    resize: both;
+   
+    }
+   
+#typing-area{
         margin-top: 20px;
     }
