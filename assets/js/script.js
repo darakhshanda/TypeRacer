@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const stopButton = document.querySelector('#stopButton');
     const retryButton = document.querySelector('#retryButton');
     const typeText = document.querySelector('#typeText');
+    const typeTextHighlight = document.querySelector('#typeTextHighlight');
     const testText = document.querySelector('#testText');
     const difficulty = document.querySelector('#difficulty');
 
@@ -35,9 +36,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const timeSpan = document.querySelector('#time');
     const wpmSpan = document.querySelector('#wpm');
     const wpsSpan = document.querySelector('#wps');
+    const errorsSpan = document.querySelector('#errors');
 
     let startTime = null;
     let timerId = null;
+    let targetText = '';
 
     function getRandomTextForDifficulty(d) {
         if (d === '1') return easyText[Math.floor(Math.random() * easyText.length)];
@@ -59,13 +62,45 @@ document.addEventListener('DOMContentLoaded', function () {
         wpmSpan.textContent = Math.round(wpm);
     }
 
+    function escapeHtml(s) {
+        return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function renderHighlight(typed) {
+        if (!typeTextHighlight) return;
+        const targetWords = targetText.trim() === '' ? [] : targetText.split(/\s+/);
+        const typedWords = typed.trim() === '' ? [] : typed.split(/\s+/);
+
+        let html = '';
+        let errors = 0;
+        const total = Math.max(targetWords.length, typedWords.length);
+        for (let i = 0; i < total; i++) {
+            const tWord = targetWords[i] || '';
+            const uWord = typedWords[i];
+            if (typeof uWord === 'undefined') {
+                html += `<span class="word upcoming">${escapeHtml(tWord)}</span>`;
+            } else {
+                if (uWord === tWord) {
+                    html += `<span class="word correct">${escapeHtml(uWord)}</span>`;
+                } else {
+                    html += `<span class="word incorrect">${escapeHtml(uWord)}</span>`;
+                    errors++;
+                }
+            }
+            if (i < total - 1) html += ' ';
+        }
+
+        typeTextHighlight.innerHTML = html;
+        if (errorsSpan) errorsSpan.textContent = errors;
+       
+    }
+
     function startTest() {
         // prepare
         const d = difficulty.value;
         levelSpan.textContent = d === '1' ? 'Easy' : d === '2' ? 'Medium' : 'Hard';
         testText.value = getRandomTextForDifficulty(d);
-        testText.style.width = 'max-content';
-        testText.style.height = 'max-content';
+      
         
         
         typeText.value = '';
@@ -75,39 +110,35 @@ document.addEventListener('DOMContentLoaded', function () {
         startButton.disabled = true;
         stopButton.disabled = false;
         retryButton.disabled = true;
-        let keydown = typeText.addEventListener("keydown", function(event) {
-            if (!startTime) startTime = Date.now();
-            updateStats();
-        });
+        targetText = testText.value;
+        if (typeTextHighlight) typeTextHighlight.innerHTML = '';
+        if (errorsSpan) errorsSpan.textContent = '0';
     // update every 200ms
         timerId = setInterval(updateStats, 200);
     
 }
 
     function stopTest() {
-        if (timerId) {
-            clearInterval(timerId);
-            timerId = null;
-        }
-        updateStats();
-        startTime = null;
-
-        // lock typing
-        typeText.disabled = true;
-
-        startButton.disabled = false;
-        stopButton.disabled = true;
-        retryButton.disabled = false;
+       
+        updateStats(); // final update
+        startTime = null; // stop timing
+      startButton.disabled = true; // keep start disabled after stopping
+        stopButton.disabled = true; // disable stop button
+        retryButton.disabled = false; // enable retry
     }
 
     function retryTest() {
-        if (timerId) {
+        if (timerId) { // clear timer if running
             clearInterval(timerId);
             timerId = null;
         }
-        startTime = null;
+        startTime = null; // reset start time
         typeText.value = '';
         testText.value = '';
+        targetText = '';
+        // reset stats
+        if (typeTextHighlight) typeTextHighlight.innerHTML = ''; // clear highlight
+        if (errorsSpan) errorsSpan.textContent = '0';
         timeSpan.textContent = '0';
         wpsSpan.textContent = '0.00';
         wpmSpan.textContent = '0';
@@ -122,6 +153,23 @@ document.addEventListener('DOMContentLoaded', function () {
     startButton.addEventListener('click', startTest);
     stopButton.addEventListener('click', stopTest);
     retryButton.addEventListener('click', retryTest);
+
+    // update highlight render and timing on user input
+    typeText.addEventListener('input', function () {
+        if (!startTime) startTime = Date.now();
+        updateStats();
+        renderHighlight(typeText.value);
+        // time update
+        timeSpan.textContent = ((Date.now() - startTime) / 1000).toFixed(1);
+    });
+
+    // keep highlight layer scrolled the same as the textarea
+    typeText.addEventListener('scroll', function () {
+        if (typeTextHighlight) {
+            typeTextHighlight.scrollTop = typeText.scrollTop;
+            typeTextHighlight.scrollLeft = typeText.scrollLeft;
+        }
+    });
 
     // Auto-start the timer and load a new test when difficulty is changed
     difficulty.addEventListener('change', function () {

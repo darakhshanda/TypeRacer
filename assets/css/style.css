@@ -52,17 +52,37 @@ body {
         color: #ff8400;
         font-style: italic;
     }
-#testText{
-    /* grow to fit text */
-    width: fit-content;
-   
-    height: fit-content;
-   
-    overflow: visible;
-    resize: both;
-   
-    }
+
    
 #typing-area{
         margin-top: 20px;
     }
+
+/* overlay/highlight styles for the typing input */
+.input-overlay-wrapper{ position: relative; }
+.highlight-layer{
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    padding: 0.375rem 0.75rem; /* match bootstrap textarea padding */
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow: auto;
+    font-family: inherit;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #222;
+    pointer-events: none;
+}
+.overlay-textarea{
+    position: relative;
+    background: transparent;
+    /* hide typed text so highlighted layer shows instead, but keep caret visible */
+    color: transparent;
+    caret-color: #000;
+}
+.highlight-layer .word{ display: inline; }
+.highlight-layer .word.correct{ color: #0b6623; background: rgba(6,160,70,0.08); }
+.highlight-layer .word.incorrect{ color: #a10000; background: rgba(255,0,0,0.06); }
+.highlight-layer .word.upcoming{ color: #666; }
+
+#errors{ color: #a10000; font-weight: bold; }

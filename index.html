@@ -33,11 +33,15 @@
 
             <!-- input fmbield with label and textarea -->
             <div class="mb-3">
-                <input type="text" class="form-control" id="testText" placeholder="The cat sat on the mat" readonly>
+                <textarea class="form-control" id="testText" placeholder="The cat sat on the mat" readonly
+                    rows="2"></textarea>
             </div>
             <div class="mb-3">
-                <textarea class="form-control" id="typeText"
-                    rows="5"> Click the start button to begin the test</textarea>
+                <!-- overlay wrapper: highlight layer beneath a transparent textarea -->
+                <div class="input-overlay-wrapper">
+                    <div id="typeTextHighlight" class="highlight-layer" aria-hidden="true"></div>
+                    <textarea class="form-control overlay-textarea" id="typeText" rows="5"> Click the start button to begin the test</textarea>
+                </div>
             </div>
             <div class="text-center mb-3">
                 <button id="startButton" class="btn btn-outline-secondary btnCustom " type="button">Start</button>
@@ -53,6 +57,7 @@
                 <p>Time: <span id="time">0</span> s </p>
                 <p>WPM: <span id="wpm">0</span></p>
                 <p>WPS: <span id="wps">0.00</span></p>
+                <p>Errors: <span id="errors">0</span></p>
             </div>
         </div>
     </div>
