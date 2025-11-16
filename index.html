@@ -13,9 +13,50 @@
 
 
 <body>
-    <div id="dive" class="mb-3" style="text-align: center;">
-        <h1>TypeRacer</h1>
+    <header id="dive">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center my-4">
+                    <h1>TypeRacer</h1>
+                    <button class="btn btn-light mt-3" id="instructions-btn" data-bs-toggle="modal"
+                        data-bs-target="#instructions-modal">
+                        <i class="fas fa-info-circle"></i> Instructions
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+
+    <!-- Instructions Modal -->
+    <div class="modal fade" id="instructions-modal" tabindex="-1" aria-labelledby="instructions-modal-label"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="instructions-modal-label">Instructions</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Welcome to the TypeRacer typing test!</p>
+                    <p>Here's how it works:</p>
+                    <ol>
+                        <li>Choose a difficulty level from the dropdown menu.</li>
+                        <li>The test will start as soon as you begin typing.</li>
+                        <li>Press the "Enter" key to stop the test.</li>
+                        <li>Your results will be displayed in the Results area.</li>
+                        <li>You can retry the test by clicking the "Retry" button.</li>
+                    </ol>
+                    <p>Good luck and have fun!</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
+
     <div id="form" class="row">
 
         <div id="typing-area" class="col-md-8">
@@ -40,7 +81,8 @@
                 <!-- overlay wrapper: highlight layer beneath a transparent textarea -->
                 <div class="input-overlay-wrapper">
                     <div id="typeTextHighlight" class="highlight-layer" aria-hidden="true"></div>
-                    <textarea class="form-control overlay-textarea" id="typeText" rows="5"> Click the start button to begin the test</textarea>
+                    <textarea class="form-control overlay-textarea" id="typeText"
+                        rows="5"> Click the start button to begin the test</textarea>
                 </div>
             </div>
             <div class="text-center mb-3">
